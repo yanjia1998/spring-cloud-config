@@ -1,0 +1,38 @@
+#指定Eureka服务地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@localhost:8761/eureka/
+    registry-fetch-interval-seconds: 30 #每隔30s去EurekaServer中拉取信息更新本地注册表
+  instance:
+    hostname: localhost
+    lease-renewal-interval-in-seconds: 30 #30s发送一次心跳机制
+    lease-expiration-duration-in-seconds: 90 #90s没有发送就默认宕机
+
+#版本
+version: v1
+
+#指定服务的名称
+spring:
+  application:
+    name: CUSTOMER-${version}
+  #rabbitmq信息
+  rabbitmq:
+    host: 192.168.44.100
+    port: 5672
+    username: test
+    password: test
+    virtual-host: /test
+
+server:
+  port: 8082
+
+#指定具体服务的负载均衡策略
+SEARCH:  #编写针对的服务名称 针对什么服务调用时使用的是什么ribbon负载均衡策略
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
+
+#服务降级配置信息  feign和hystrix组件整合的内容
+feign:
+  hystrix:
+    enabled: true
