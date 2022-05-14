@@ -1,4 +1,4 @@
-env: test
+env: env
 #指定Eureka服务地址
 eureka:
   client:
